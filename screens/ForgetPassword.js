@@ -11,10 +11,10 @@ const ForgetPassword = ({ navigation }) => {
     }
     return (
         <View style={styles.container}>
-            <Text style={styles.textDesign}>CodeTribe Sanitary Pads</Text>
+            {/* <Text style={styles.textDesign}>CodeTribe Sanitary</Text> */}
             <View style={styles.viewDirection}>
-                <Image style={styles.img} source={require("../assets/BackGround.png")} />
-                <Image style={styles.img} source={require("../assets/BackGround2.png")} />
+                <Image style={styles.img} source={require("../assets/rose.png")} />
+                {/* <Image style={styles.img} source={require("../assets/BackGround2.png")} /> */}
             </View>
             <Text style={styles.textDesign3}>Forgot password</Text>
             <TextInput
@@ -33,7 +33,7 @@ const ForgetPassword = ({ navigation }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#000',
+        backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -43,37 +43,39 @@ const styles = StyleSheet.create({
         color: '#FFC0CB',
         paddingHorizontal: 15,
         paddingVertical: 5,
-        backgroundColor: '#808080',
+        backgroundColor: '#E46060',
         borderRadius: 60,
         alignItems: 'center',
         justifyContent: 'center',
     },
     img: {
         height: 150,
-        width: 150,
-        marginBottom: 50,
-
+        width: 70,
+        marginBottom: 70, //nb
+        borderRadius: 10,
+       
     },
     fieldText_Design: {
-        backgroundColor: '#fff',
+        backgroundColor: '#F1F0F0',
         width: 250,
-        height: 30,
+        height: 40,
         paddingHorizontal: 15,
         paddingVertical: 10,
         borderRadius: 10,
-        marginTop: 10,
+        marginBottom: 10,
     },
     textDesign: {
         color: '#808080',
         fontSize: 30,
+        marginBottom: 80,
         // fontFamily: 'brush-script mt',
     },
     textDesign3: {
-        color: '#808080',
+        color: '#000',
         fontSize: 15,
         // fontFamily: 'brush-script mt',
-        marginRight: 0,
-        marginTop: 20,
+        marginRight: 150,
+        marginBottom: 20,
     },
     textDesign4: {
         color: '#FFFFFF',

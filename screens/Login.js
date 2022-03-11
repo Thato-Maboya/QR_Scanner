@@ -31,100 +31,111 @@ const Login = ({ navigation }) => {
     };
     return (
         <View style={styles.container}>
-            <Text style={styles.textDesign}>CodeTribe Sanitary Pads</Text>
+            <View style={{ marginBottom: 74}}>
+                {/* <Text style={styles.textDesign}>CodeTribe Sanitary</Text> */}
+                <Image style={styles.img} source={require("../assets/rose.png")} />
+                <Text style={styles.textDesign3}>Welcome Back</Text>
 
-            <View style={styles.viewDirection}>
-                <Image style={styles.img} source={require("../assets/BackGround.png")} />
-                <Image style={styles.img} source={require("../assets/BackGround2.png")} />
-            </View>
-            <Text style={styles.textDesign3}>Welcome Back</Text>
-            <TextInput
-                style={styles.fieldText_Design}
-                placeholder='Enter your email address'
-                value={email}
-                onChangeText={(email) => setEmail(email)} />
-            <TextInput
-                style={styles.fieldText_Design}
-                placeholder='Password' value={password}
-                onChangeText={(password) => setPassword(password)}
-                secureTextEntry={true} />
-            <View style={{ marginTop: 10 }}>
-                <TouchableOpacity onPress={handlePress} style={styles.loginButton}>
-                    <Text>Login</Text>
-                </TouchableOpacity>
-            </View >
-            <TouchableOpacity onPress={() => navigation.navigate("ForgetPassword")}>
-                <Text style={styles.textDesign5}>Forgot Password</Text>
-            </TouchableOpacity>
-            <View style={styles.viewDirection}>
-                <Text style={styles.textDesign5}>Don't have an account sign up ?</Text>
-                <TouchableOpacity onPress={() => navigation.navigate("signUp")}>
-                    <Text style={styles.textDesign4}>Sign Up</Text>
-                </TouchableOpacity>
-            </View>
+                <TextInput
+                    style={styles.fieldText_Design}
+                    placeholder='Enter your email address'
+                    value={email}
+                    onChangeText={(email) => setEmail(email)} />
+                <TextInput
+                    style={styles.fieldText_Design}
+                    placeholder='Password' value={password}
+                    onChangeText={(password) => setPassword(password)}
+                    secureTextEntry={true} />
 
-        </View >
+                <View style={{ marginTop: 20 }}>
+                    <TouchableOpacity onPress={handlePress} style={styles.loginButton}>
+                        <Text>Login</Text>
+                    </TouchableOpacity>
+                </View >
+                <TouchableOpacity onPress={() => navigation.navigate("ForgetPassword")}>
+                    <Text style={styles.textDesign5}>Forgot Password</Text>
+                </TouchableOpacity>
+                <View style={styles.viewDirection}>
+                    <Text style={styles.textDesign5B}>Not Registered?</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+                        <Text style={styles.textDesign4}> Sign Up</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#000',
+        backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+
     },
-    
+
     loginButton: {
         height: 40,
         width: 250,
         color: '#FFC0CB',
         paddingHorizontal: 15,
         paddingVertical: 5,
-        backgroundColor: '#808080',
+        backgroundColor: '#E46060',
         borderRadius: 60,
         alignItems: 'center',
         justifyContent: 'center',
     },
     img: {
         height: 150,
-        width: 150,
-        marginBottom: 50,
-
+        width: 70,
+        marginBottom: 70, //nb
+        borderRadius: 10,
+        marginLeft: 89,
     },
     fieldText_Design: {
-        backgroundColor: '#fff',
+        backgroundColor: '#F1F0F0',
         width: 250,
         height: 40,
         paddingHorizontal: 15,
         paddingVertical: 10,
         borderRadius: 10,
-        marginTop: 10,
+        marginBottom: 10,
     },
+
     textDesign: {
-        color: '#FFC0CB',
+
+        color: '#000',
+        marginBottom: 60, //nb
         fontSize: 30,
-        // fontFamily: 'brush-script mt',
+        marginLeft: 0,
     },
     textDesign3: {
-        color: '#FFC0CB',
+        color: '#000',
         fontSize: 15,
         // fontFamily: 'brush-script mt',
         marginRight: 150,
-        marginTop: 20,
+        marginBottom: 20,
     },
     textDesign4: {
-        color: '#FFFFFF',
-        fontSize: 15,
+        color: '#E46060',
+        fontSize: 13,
         // fontFamily: 'brush-script mt',
         marginRight: 5,
         marginTop: 20,
     },
     textDesign5: {
-        color: '#FFC0CB',
-        fontSize: 15,
+        color: '#E46060',
+        fontSize: 13,
         // fontFamily: 'brush-script mt',
-        marginRight: 5,
+        marginLeft: 150,
+        marginTop: 20,
+    },
+    textDesign5B: {
+        color: '#000',
+        fontSize: 13,
+        // fontFamily: 'brush-script mt',
+        
         marginTop: 20,
     },
     signUpText_Design: {
@@ -137,7 +148,12 @@ const styles = StyleSheet.create({
     },
     viewDirection: {
         flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
         // marginTop:100,
+    },
+    viewDirection_a: {
+        flexDirection: 'row'
     },
     controlView: {
         marginTop: 350,

@@ -1,168 +1,152 @@
-import { ImageBackground} from 'react-native';
+import { ImageBackground } from 'react-native';
 import { View, Text, StyleSheet, Image, Alert } from 'react-native';
 import React, { useState, useEffect } from 'react';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import { registration, getUserInfo, getScannerInfo} from '../services';
+import { updateUserDetails, getUserInfo, getScannerInfo } from '../services';
 import { firebase } from '../config/firebaseConfig';
 
 
 
-const Profile = ({navigation}) => {
+const Profile = ({ navigation }) => {
 
-    const [firstname, setFirstname] = useState('');
+    const [fullname, setFullname] = useState('');
     const [lastname, setLastname] = useState('');
     const [email, setEmail] = useState('');
-    const [Phonenumber, setPhonenumber] = useState('');
+    const [phonenumber, setPhonenumber] = useState('');
     const [OTPnumber, setOTPnumber] = useState('');
-    const [Idnumber, setIdnumber] = useState('');
-    const [SchoolName, setSchoolName] = useState('');
-    const [SchoolGrade, setSchoolGrade] = useState('');
-    const emptyState = () => {
-        setPhonenumber('');
-        setOTPnumber('');
-        setIdnumber('');
-        setSchoolName('');
-        setSchoolGrade('');
+    const [idnumber, setIdnumber] = useState('');
+    const [schoolName, setSchoolName] = useState('');
+    const [grade, setGrade] = useState('');
+    const [id, setId] = useState('');
+    // const emptyState = () => {
+    //     setPhonenumber('');
+    //     setOTPnumber('');
+    //     setIdnumber('');
+    //     setSchoolName('');
+    //     setSchoolGrade('');
 
-    };
+    // };
     const [userDetails, setUserDetails] = useState([]);
 
     let list = []
 
-    const fetchUser= async => {
+    const fetchUser = async => {
         getUserInfo().then((data) => {
-           list = data
-           console.log(list);
-           setUserDetails(list);
+            list = data
+            console.log(list);
+            setUserDetails(list);
+            setPhonenumber(list[0].Phonenumber);
+            setFullname(list[0].fullname);
+            setEmail(list[0].email);
+            setIdnumber(list[0].Idnumber);
+            setSchoolName(list[0].SchoolName);
+            setGrade(list[0].grade);
+            setId(list[0].id);
         })
-     }
+    }
+    console.log(fullname)
 
-     const [scannerDetails, setScannerDetails] = useState([]);
+    const [scannerDetails, setScannerDetails] = useState([]);
 
     let listScanned = []
 
-    const fetchScanner= async => {
+    const fetchScanner = async => {
         getScannerInfo().then((data) => {
             listScanned = data
-           console.log(list);
-           setScannerDetails(list);
+            console.log(list);
+            setScannerDetails(list);
         })
-     }
+    }
 
-     useEffect(() => {
+    useEffect(() => {
         fetchUser()
         fetchScanner()
-     }, [])
+    }, [])
 
-    const handlePress = () => {
-        if (!Phonenumber) {
-            Alert.alert('Enter your Phone number*.');
-        }
+    const handlePressUpdate = (id, fullname, email, phonenumber, idnumber, schoolName, grade) => {
+        //     if (!email) {
+        //         Alert.alert('Enter your Phone number*.');
+        //     }
 
-       else if (!OTPnumber) {
-            Alert.alert('Enter your OTP number*.');
-        }
-
-       else if (!Idnumber) {
-            Alert.alert('Enter your Id number*.');
-        }
-        else if (!SchoolName) {
-            Alert.alert('Enter your School name*.');
-        }
-
-        else if (!SchoolGrade) {
-            Alert.alert('Enter your school grade*.');
-        
-
-
-        } else {
-            registration(
-                Phonenumber,
-                OTPnumber,
-                Idnumber,
-                SchoolName,
-                SchoolName,
-            );
-            navigation.navigate('HomeScreen');
-            emptyState();
-        }
+        //    else if (!fullname) {
+        //         Alert.alert('Enter your OTP number*.');
+        //     } else {
+        //         updateUserDetails(id, fullname, email, phonenumber, idnumber, schoolName, grade);
+        //         navigation.navigate('Homepage');
+        //     }
+        updateUserDetails(id, fullname, email, phonenumber, idnumber, schoolName, grade);
+        navigation.navigate('Homepage');
     };
 
     return (
         <View style={styles.container}>
 
-<ImageBackground style={styles.imgBackground}
-                resizeMode='cover'
-                source={require('../assets/wallpaper.jpg')}>
-
-            <Text style={styles.textDesign}>CodeTribe Sanitary Towel</Text>
+            {/* <Text style={styles.textDesign}>CodeTribe Sanitary Towel</Text> */}
             <View style={styles.viewDirection}>
             </View>
             <Text style={styles.textDesign3}>Complete Form</Text>
 
-            {
-                  userDetails.map((item, index) => {
-                     return (
-                        <View key={index} style={styles.usernameCenter}>
-                           {/* <Text style={styles.username}> {item.firstname}</Text>
+            <View style={styles.usernameCenter}>
+                {/* <Text style={styles.username}> {item.firstname}</Text>
                            <Text>{item.email}</Text> */}
-                           <TextInput
-                                style={styles.fieldText_Design}
-                                value={item.firstname}
-                                onChangeText={(firstname) => setFirstname(firstname)}
-                            
-                            />
-                            <TextInput
-                                style={styles.fieldText_Design}
-                                value={item.lastname}
-                                onChangeText={(lastname) => setLastname(lastname)}
-                            
-                            />
-                            <TextInput
-                                style={styles.fieldText_Design}
-                                value={item.email}
-                                onChangeText={(email) => setEmail(email)}
-                                // editable={false} selectTextOnFocus={false}
-                            />
-                        </View>
-                     )
-                  })
-               }
-            <TextInput
-                style={styles.fieldText_Design}
-                placeholder='Phone numbers'
-                
-            />  
-            <View style={{ marginTop: 10, marginRight: 5, flexDirection:'row' }}>
-                <TouchableOpacity onPress={handlePress}>
-                    <Text style={styles.loginButton2}>Verify</Text>
-                </TouchableOpacity>
                 <TextInput
-                style={styles.fieldText_Design2}
-                placeholder='OTP Number'
-            />
-            </View >
-             
-            <TextInput
-                style={styles.fieldText_Design}
-                placeholder='ID Number'
-                 
-            />
-            <TextInput
-                style={styles.fieldText_Design}
-                placeholder='Name of the School'
-            />
-            <TextInput
-                style={styles.fieldText_Design}
-                placeholder='Grade'
-            
-            />
-            <View style={{ marginTop: 10 }}>
-                <TouchableOpacity onPress={handlePress} style={styles.loginButton}>
-                    <Text>Update</Text>
-                </TouchableOpacity>
-            </View >
-            </ImageBackground>
+                    style={styles.fieldText_Design}
+                    value={fullname}
+                    onChangeText={(fullname) => setFullname(fullname)}
+                //  editable={false} selectTextOnFocus={false}
+
+                />
+                <TextInput
+                    style={styles.fieldText_Design}
+                    value={email}
+                    onChangeText={(email) => setEmail(email)}
+                //  editable={false} selectTextOnFocus={false}
+                />
+                <TextInput
+                    style={styles.fieldText_Design}
+                    placeholder='Phone numbers'
+                    value={phonenumber}
+                    editable
+                    onChangeText={(phonenumber) => setPhonenumber(phonenumber)}
+                />
+                <View style={{ marginTop: 10, marginRight: 5, flexDirection: 'row' }}>
+                    <TouchableOpacity >
+                        <Text style={styles.loginButton2}>Verify</Text>
+                    </TouchableOpacity>
+                    <TextInput
+                        style={styles.fieldText_Design2}
+                        placeholder='OTP Number'
+                    />
+                </View >
+
+                <TextInput
+                    style={styles.fieldText_Design}
+                    placeholder='ID Number'
+                    value={idnumber}
+                    editable
+                    onChangeText={(idnumber) => setIdnumber(idnumber)}
+                />
+                <TextInput
+                    style={styles.fieldText_Design}
+                    placeholder='Name of the School'
+                    value={schoolName}
+                    editable
+                    onChangeText={(schoolName) => setSchoolName(schoolName)}
+                />
+                <TextInput
+                    style={styles.fieldText_Design}
+                    placeholder='Grade'
+                    value={grade}
+                    editable
+                    onChangeText={(grade) => setGrade(grade)}
+                />
+                <View style={{ marginTop: 10 }}>
+                    <TouchableOpacity onPress={() => handlePressUpdate(id, fullname, email, phonenumber, idnumber, schoolName, grade)} style={styles.loginButton}>
+                        <Text>Update</Text>
+                    </TouchableOpacity>
+                </View >
+            </View>
+
         </View>
     );
 };
@@ -172,18 +156,16 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-
+        backgroundColor: '#fff',
     },
     imgBackground: {
         width: '100%',
         height: '100%',
         alignItems: 'center',
-     
-  
-},
-    
+    },
+
     fieldText_Design: {
-        backgroundColor: '#fff',
+        backgroundColor: '#F1F0F0',
         width: 250,
         height: 40,
         paddingHorizontal: 15,
@@ -192,14 +174,14 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     fieldText_Design2: {
-        backgroundColor: '#fff',
+        backgroundColor: '#F1F0F0',
         width: 150,
         height: 40,
         paddingHorizontal: 15,
         paddingVertical: 10,
         borderRadius: 10,
         marginTop: 0,
-        
+
     },
     loginButton: {
         height: 40,
@@ -207,7 +189,7 @@ const styles = StyleSheet.create({
         color: '#FFC0CB',
         paddingHorizontal: 15,
         paddingVertical: 5,
-        backgroundColor: '#808080',
+        backgroundColor: '#E46060',
         borderRadius: 60,
         alignItems: 'center',
         justifyContent: 'center',
@@ -217,21 +199,22 @@ const styles = StyleSheet.create({
         width: 90,
         color: '#FFC0CB',
         paddingHorizontal: 25,
-        paddingVertical: 5,
+        paddingVertical: 10,
         backgroundColor: '#808080',
-        borderRadius: 60,
+        borderRadius: 10,
+        marginRight: 5,
     },
     textDesign: {
-        color: '#808080',
+        color: '#000',
         marginBottom: 60,
         fontSize: 30,
         // fontFamily: 'brush-script mt',
     },
     textDesign3: {
-        color: '#808080',
+        color: '#000',
         fontSize: 15,
         // fontFamily: 'brush-script mt',
-        marginRight: 150,
+        marginRight: 135,
         marginTop: 20,
     },
     textDesign4: {

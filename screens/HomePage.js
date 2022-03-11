@@ -1,174 +1,247 @@
-import { View, Text, StyleSheet, TextInput, ScrollView } from 'react-native';
-import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { resetPassword } from '../services';
-import { AntDesign } from '@expo/vector-icons';
+import { StatusBar } from 'expo-status-bar';
+import { Animated, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
+import profiles from '../assets/profiles.png';
+import { useRef, useState, useEffect } from 'react';
+//Tab icons...
+import home from '../assets/home.png';
+import search from '../assets/search.png';
+import Notifications from '../assets/bell.png';
+import settings from '../assets/settings.png';
+import logout from '../assets/logout.png';
+//Menu
+import menu from '../assets/mainM.png';
+import close from '../assets/close.png';
+import {getUserInfo, loggingOut} from '../services';
 
-import { Feather } from '@expo/vector-icons';
-
+//Photo 
+import photo from '../assets/photo.jpg';
+import { Feather, MaterialCommunityIcons, AntDesign } from '@expo/vector-icons';
 const HomePage = ({ navigation }) => {
-    const [email, setEmail] = useState('')
-    const reset = () => {
-        resetPassword(email)
-        navigation.navigate("Login")
+    const [currentTab, setCurrentTab] = useState("Welcome");
+    //To get the current state menu
+    const [showMenu, setShowMenu] = useState(false);
+    //animated  properties
+    const offstValue = useRef(new Animated.Value(0)).current;
+    //scale initial must be
+    const scaleValue = useRef(new Animated.Value(1)).current;
+    const closeButtonOffset = useRef(new Animated.Value(0)).current;
+    const [fullname, setFullname] = useState('');
+
+    //navigation to profile page
+    const handlePressProfile = () => {
+        navigation.navigate('Profile');
     }
 
     const handlePressScanner = () => {
         navigation.navigate('Scanner');
     }
-
-    const handlePressProfile = () => {
-        navigation.navigate('Profile');
+    const handlePressTransaction = () => {
+        navigation.navigate('Transaction');
     }
 
+    const handlePressLogOut = () => {
+        loggingOut().then(
+           navigation.navigate('Login')
+        )
+     };
+
+    let list = []
+
+    const fetchUser = async => {
+        getUserInfo().then((data) => {
+            list = data
+            setFullname(list[0].fullname);
+        })
+    }
+
+    useEffect(() => {
+        fetchUser()
+    }, [])
+
     return (
-        <View style={styles.container}>
-            <View style={styles.controlView}>
-                <View style={styles.viewDirection}>
-                    <TouchableOpacity>
-                        <Feather style={styles.iconDesign} name="camera" size={24} color="#FFFFFF" onPress={handlePressScanner} />
-                    </TouchableOpacity>
-                    <Text style={styles.textDesign}>CodeTribe Sanitary Pads</Text>
-                    <TouchableOpacity>
-                        <AntDesign style={styles.cameraiconDesign} name="user" size={24} color="#FFFFFF" onPress={handlePressProfile} />
-                    </TouchableOpacity>
-                </View>
-                <View horizontal={true} style={styles.viewDirection2}>
-                    <View style={styles.img} />
-                </View >
+        <SafeAreaView style={styles.container}>
+            <View style={{ justifyContent: 'flex-start', padding: 15 }}>
+                <Image source={profiles} style={{
+                    width: 60,
+                    height: 60,
+                    borderRadius: 10,
+                    marginTop: 8,
+                }}></Image>
+                {/* <ActivityIndicator size="large" color="#00ff00" /> */}
+                <Text style={{
+                    fontSize: 15,
+                    fontWeight: 'bold',
+                    color: '#E46060',
+                    marginTop: 20,
+                }}>{fullname}</Text>
+                <TouchableOpacity onPress={handlePressProfile}>
+                    <Text style={{
+                        marginTop: 6,
+                        color: '#E46060',
+                    }}>View Profiles</Text>
+                </TouchableOpacity>
 
-                <View style={styles.textDesign3}>
-                    <Text style={{ color: '#FFFFFF', fontSize: 20, }}>Category</Text>
-                </View>
-
-                <View style={styles.viewDirection}>
-                    <TouchableOpacity style={styles.textDesign4}>
-                        <Text style={{ color: '#FFFFFF', }}>Donate</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.textDesign4}>
-                        <Text style={{ color: '#FFFFFF', }}>Claim coupons</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.viewDirection}>
-                    <TouchableOpacity style={styles.textDesign4}>
-                        <Text style={{ color: '#FFFFFF', }}>Track Record</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.textDesign4}>
-                        <Text style={{ color: '#FFFFFF', }}>Q and A (guidance)</Text>
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity style={{marginTop:20}}>
+                    <Feather name="home" size={24} color="#fff"  ><View style={{marginHorizontal:10}}>Home</View></Feather>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Feather name="search" size={24} color="#fff" ><View style={{marginHorizontal:10}}>Search</View></Feather>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={handlePressTransaction}>
+                    <MaterialCommunityIcons name="transfer" size={24} color="#fff" ><View style={{marginHorizontal:10}}>Transaction</View></MaterialCommunityIcons>
+                </TouchableOpacity>
+                <TouchableOpacity>
+                    <Feather name="settings" size={24} color="#fff" ><View style={{marginHorizontal:10}}>Setting</View></Feather>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={handlePressLogOut}>
+                    <AntDesign name="logout" size={24} color="#fff" ><View style={{marginHorizontal:10}}>LogOut</View></AntDesign>
+                </TouchableOpacity>
             </View>
-        </View >
-    );
-};
+            <Animated.View style={{
+                flexGrow: 1,
+                backgroundColor: "#fff",
+                position: 'absolute',
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+                paddingHorizontal: 15,
+                paddingVertical: 20,
+                borderRadius: showMenu ? 15 : 0,
+                //Transfoming View
+                transform: [
+                    { scale: scaleValue },
+                    { translateX: offstValue }
+                ]
+            }}>
+                {
+                    // Menu button
+                }
 
+                <Animated.View style={{
+                    transform: [{
+                        translateY: closeButtonOffset
+                    }]
+                }}>
+                    <Animated.View style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity onPress={() => {
+                            //do action more
+                            //scaling the view
+                            Animated.timing(scaleValue, {
+                                toValue: showMenu ? 1 : 0.88,
+                                duration: 300,
+                                useNativeDriver: true
+                            })
+                                .start()
+
+                            Animated.timing(offstValue, {
+                                toValue: showMenu ? 0 : 220,
+                                duration: 300,
+                                useNativeDriver: true
+                            })
+                                .start()
+
+                            Animated.timing(closeButtonOffset, {
+                                //random values
+                                toValue: showMenu ? -30 : 0,
+                                duration: 300,
+                                useNativeDriver: true
+                            })
+                                .start()
+                            setShowMenu(!showMenu);
+                        }} style={{ flexDirection: 'row' }}>
+                            <Image source={showMenu ? close : menu} style={{
+                                width: 30,
+                                height: 30,
+                                tintColor: 'black',
+                                marginTop: 15
+                            }}></Image>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={{ marginLeft: 305, marginTop: 20 }}>
+                            <Feather name="camera" size={24} color="grey" onPress={handlePressScanner} />
+                        </TouchableOpacity>
+                    </Animated.View>
+                    <Text style={{
+                        fontSize: 20,
+                        fontWeight: 'bold',
+                        color: '#131112',
+                        paddingTop: 20,
+                    }}>
+                        {currentTab}
+                    </Text>
+                    <Image style={{
+                        width: 300,
+                        height: 250,
+                        borderRadius: 15,
+                        marginTop: 20,
+                        marginLeft: 30,
+                        resizeMode: 'cover',
+                        backgroundColor: '#131112',
+
+                    }}>
+                    </Image>
+
+                    <View style={{ flexDirection: 'row', }}>
+                        <Text style={{ fontWeight: 'bold', marginTop: 35, fontSize: 15, color: '#B80E0E', marginLeft:35 }}>
+                            Expense History
+                        </Text>
+                        <Text style={{ fontWeight: 'bold', marginTop: 35, fontSize: 15, color: '#B80E0E', marginLeft:110 }}>
+                            View All
+                        </Text>
+                    </View>
+
+
+                </Animated.View>
+            </Animated.View>
+        </SafeAreaView>
+    );
+}
+
+const TabButton = (currentTab, setCurrentTab, title, image) => {
+    return (
+        <TouchableOpacity onPress={() => {
+            if (title == "LogOut") {
+                //log out function
+            } else {
+                setCurrentTab(title)
+            }
+        }}>
+            <View style={{
+                flexDirection: "row",
+                alignItems: 'center',
+                paddingVertical: 8,
+                backgroundColor: currentTab == title ? '#fff' : 'transparent',
+                paddingLeft: 13,
+                paddingRight: 35,
+                borderRadius: 8,
+                marginTop: 15,
+            }}>
+
+                <Image source={image} style={{
+                    width: 25, height: 25,
+
+                    //  tintColor: currentTab == title ? "#5359D1" : "#fff"
+                }}></Image>
+
+                <Text style={{
+                    fontSize: 15,
+                    fontWeight: 'bold',
+                    paddingLeft: 15,
+                    color: currentTab == title ? "#B80E0E" : "#fff"
+                }}>
+                    {title}
+                </Text>
+            </View>
+        </TouchableOpacity>
+    );
+}
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#000',
-        alignItems: 'center',
-        justifyContent: 'center',
-
-    },
-    iconDesign: {
-        marginRight: 34,
-    },
-    cameraiconDesign: {
-        marginLeft: 34,
-    },
-    loginButton: {
-        height: 30,
-        width: 250,
-        color: '#FFC0CB',
-        paddingHorizontal: 100,
-        paddingVertical: 5,
-        backgroundColor: '#808080',
-        borderRadius: 60,
-        marginTop: 10,
-    },
-    img: {
-        height: 200,
-        width: 300,
-        marginBottom: 0,
-        backgroundColor: '#808080',
-        borderRadius: 10,
-    },
-    img2: {
-        height: 140,
-        width: 140,
-        marginLeft: 10,
-        marginTop: 10,
-        backgroundColor: '#808080',
-        borderRadius: 10,
-    },
-    fieldText_Design: {
-        backgroundColor: '#fff',
-        width: 250,
-        height: 30,
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        borderRadius: 10,
-        marginTop: 10,
-    },
-    textDesign: {
-        color: '#FFFFFF',
-        fontSize: 20,
-        // fontFamily: 'brush-script mt',
-        marginTop: 5,
-    },
-    textDesign3: {
-        // fontFamily: 'brush-script mt',
-        // marginRight: 0,
-        marginTop: 20,
-        // paddingLeft: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    textDesign4: {
-        color: '#FFFFFF',
-        borderRadius: 10,
-        // paddingVertical: 65,
-        // paddingHorizontal: 20,
-        fontSize: 15,
-        // fontFamily: 'brush-script mt',
-        marginLeft: 10,
-        marginTop: 20,
-        backgroundColor: '#808080',
-        height: 140,
-        width: 140,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    textDesign5: {
-        color: '#808080',
-        fontSize: 15,
-        // fontFamily: 'brush-script mt',
-        marginRight: 5,
-        marginTop: 20,
-    },
-    signUpText_Design: {
-        color: '#808080',
-        marginTop: 55,
-        fontSize: 15,
-        // fontFamily: 'brush-script mt',
-        marginTop: 10,
-
-    },
-    viewDirection: {
-        flexDirection: 'row',
-        // marginBottom:100,
-        marginTop: 25,
-        alignItems: 'center',
-        justifyContent: 'center'
-    },
-    viewDirection2: {
-        flexDirection: 'row',
-        marginTop: 25,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    controlView: {
-        marginBottom: 20,
+        backgroundColor: '#2B2F3E',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
     },
 });
 
