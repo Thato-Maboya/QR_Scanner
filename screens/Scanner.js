@@ -54,8 +54,25 @@ const Scanner = ({ navigation }) => {
 
                 alert("Today's date difference : " + userDayDiff);
                 if (userDayDiff < 28) {
+                    try {
+                        const currentUser = firebase.auth().currentUser;
+                        const db = firebase.firestore();
+
+                        db.collection("scanner").add({
+                            userID: currentUser.uid,
+                            scanned: 0,
+                            day: dayScanned,
+                            month: monthScanned,
+                            year: yearScanned,
+                            date: currentDate,
+                        });
                     alert("Hello, you have already scanned for a sanitory towel in the past 28 days");
-                    navigation.navigate('Homepage');
+                    navigation.navigate('Home');
+                } catch (error) {
+                    alert("There is something wrong while adding a scanner!!!", error.message);
+                    console.log(error.message);
+                    navigation.navigate('Home');
+                }
                 }
                 else {
                     try {
@@ -71,11 +88,11 @@ const Scanner = ({ navigation }) => {
                             date: currentDate,
                         });
                         alert("Thanks for scanning, wait for you transaction to be made.");
-                        navigation.navigate('Homepage');
+                        navigation.navigate('ScannedSuccessful');
                     } catch (error) {
                         alert("There is something wrong while adding a scanner!!!", error.message);
                         console.log(error.message);
-                        navigation.navigate('Homepage');
+                        navigation.navigate('Home');
                     }
                 }
             } else {
@@ -111,11 +128,11 @@ const Scanner = ({ navigation }) => {
                     });
                     setScanned(false);
                     alert("Scanned successfully");
-                    navigation.navigate('Homepage');
+                    navigation.navigate('ScannedSuccessful');
                 } catch (error) {
                     alert("There is something wrong while adding a scanner!!!", error.message);
                     console.log(error.message);
-                    navigation.navigate('Homepage');
+                    navigation.navigate('Home');
                 }
             }
         })

@@ -28,7 +28,7 @@ const SignUp = ({ navigation }) => {
         }
         if (firstname && email && password && passwordconfirm) {
             registration(email, password, lastname, firstname);
-            navigation.navigate("Homepage");
+            navigation.navigate("Home");
 
             setFirstname('');
             setLastname('');
@@ -43,7 +43,7 @@ const SignUp = ({ navigation }) => {
                 {/* <Text style={styles.textDesign}>CodeTribe Sanitary</Text> */}
 
                 <View style={styles.viewDirection}>
-                    <Image style={styles.img} source={require("../assets/rose.png")} />
+                    <Image style={styles.img} source={require("../assets/1.png")} />
                     {/* <Image style={styles.img} source={require("../assets/BackGround2.png")} /> */}
                 </View>
                 <Text style={styles.textDesign3}>Let's get started</Text>
@@ -80,9 +80,9 @@ const SignUp = ({ navigation }) => {
                     secureTextEntry={true}
 
                 />
-                <View style={{ marginTop: 10 }}>
+                <View style={{ marginTop: 10, color: '#FFFFFF' }}>
                     <TouchableOpacity onPress={handlePress} style={styles.loginButton}>
-                        <Text >Register</Text>
+                        <Text style={{color: '#FFFFFF', fontWeight: 'bold' }}>Register</Text>
                     </TouchableOpacity>
                 </View >
                 <View style={styles.viewDirection}>
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
+        // justifyContent: 'center',
         
          
     },
@@ -116,10 +116,10 @@ const styles = StyleSheet.create({
     loginButton: {
         height: 40,
         width: 250,
-        color: '#FFC0CB',
+        color: '#FFFFFF',
         paddingHorizontal: 15,
         paddingVertical: 5,
-        backgroundColor: '#E46060',
+        backgroundColor: '#BF4158',
         borderRadius: 60,
         alignItems: 'center',
         justifyContent: 'center',
@@ -161,13 +161,11 @@ const styles = StyleSheet.create({
     },
     img: {
         height: 150,
-        width: 70,
+        width: 150,
         marginBottom: 50,
         borderRadius: 10,
-        marginRight:3,
+        marginTop: 50,
+        // marginRight:3,
     },
-
-
-
 });
 export default SignUp;

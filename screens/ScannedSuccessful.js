@@ -5,69 +5,32 @@ import { firebase } from '../config/firebaseConfig';
 import { signIn } from '../services';
 require('firebase/auth')
 
-const Login = ({ navigation }) => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+const ScannedSuccessful = ({ navigation }) => {
 
     const handlePress = () => {
-        if (!email) {
-            alert('Email field is required*.');
-        }
-
-        if (!password) {
-            alert('Password field is required*.');
-        }
-
-        signIn(email, password).then(() => {
-            let user = firebase.auth().currentUser
-            if (user) {
-                console.log(user)
-                navigation.navigate('Home');
-                setEmail('');
-                setPassword('');
-            }
-        });
-
+        navigation.navigate('Home');
     };
     return (
         <View style={styles.container}>
             {/* <Text style={styles.textDesign}>CodeTribe Sanitary</Text> */}
 
             <View style={styles.viewDirection}>
-                <Image style={styles.img} source={require("../assets/1.png")} />
+                <Image style={styles.img} source={require("../assets/qakaz.png")} />
                 {/* <Image style={styles.img} source={require("../assets/BackGround2.png")} /> */}
             </View>
-            <Text style={styles.textDesign3}>Welcome Back</Text>
-            <TextInput
-                style={styles.fieldText_Design}
-                placeholder='Enter your email address'
-                value={email}
-                onChangeText={(email) => setEmail(email)} />
-
-            <TextInput
-                style={styles.fieldText_Design}
-                placeholder='Password' value={password}
-                onChangeText={(password) => setPassword(password)}
-                secureTextEntry={true} />
+            <Text style={styles.fieldTextDesign}>SUCCESSFUL</Text>
+            <Text style={styles.fieldText_Design}>
+                You can now take your
+            </Text>
+            <Text style={styles.fieldText_Design}>
+                package.
+            </Text>
+            
             <View style={{ marginTop: 10 }}>
               <TouchableOpacity onPress={handlePress} style={styles.loginButton}>
-                  <Text style={{color: '#FFFFFF', fontWeight: 'bold' }}>Login</Text>
+                  <Text>DONE</Text>
               </TouchableOpacity>
           </View >
-
-            <View style={{ marginTop: 10,paddingLeft: 100 }}>
-                <TouchableOpacity onPress={() => navigation.navigate("ForgetPassword")}>
-                    <Text>Forgot Password?</Text>
-                </TouchableOpacity>
-            </View >
-
-            <View style={styles.viewDirection}>
-                <Text style={styles.textDesign5}>Not Registered?</Text>
-                <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
-                    <Text style={styles.textDesign4}>Sign Up</Text>
-                </TouchableOpacity>
-            </View>
-
         </View>
     );
 };
@@ -80,22 +43,28 @@ const styles = StyleSheet.create({
 
 
     },
-    fieldText_Design: {
-        backgroundColor: '#F1F0F0',
-        width: 250,
-        height: 40,
+    fieldTextDesign: {
         paddingHorizontal: 15,
         paddingVertical: 10,
         borderRadius: 10,
         marginTop: 10,
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontSize: 15,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    fieldText_Design: {
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     loginButton: {
         height: 40,
         width: 250,
-        color: '#FFFFFF',
+        color: '#FFC0CB',
         paddingHorizontal: 15,
         paddingVertical: 5,
-        backgroundColor: '#BF4158',
+        backgroundColor: '#E46060',
         borderRadius: 60,
         alignItems: 'center',
         justifyContent: 'center',
@@ -107,6 +76,8 @@ const styles = StyleSheet.create({
         fontSize: 30,
         marginRight: 3,
         // fontFamily: 'brush-script mt',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     textDesign3: {
         color: '#000',
@@ -145,4 +116,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Login;
+export default ScannedSuccessful;

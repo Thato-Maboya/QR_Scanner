@@ -75,7 +75,7 @@ const Profile = ({ navigation }) => {
         //         navigation.navigate('Homepage');
         //     }
         updateUserDetails(id, fullname, email, phonenumber, idnumber, schoolName, grade);
-        navigation.navigate('Homepage');
+        navigation.navigate('Home');
     };
 
     return (
@@ -142,7 +142,7 @@ const Profile = ({ navigation }) => {
                 />
                 <View style={{ marginTop: 10 }}>
                     <TouchableOpacity onPress={() => handlePressUpdate(id, fullname, email, phonenumber, idnumber, schoolName, grade)} style={styles.loginButton}>
-                        <Text>Update</Text>
+                        <Text style={{color: '#FFFFFF', fontWeight: 'bold' }}>Update</Text>
                     </TouchableOpacity>
                 </View >
             </View>
@@ -186,10 +186,10 @@ const styles = StyleSheet.create({
     loginButton: {
         height: 40,
         width: 250,
-        color: '#FFC0CB',
+        color: '#FFFFFF',
         paddingHorizontal: 15,
         paddingVertical: 5,
-        backgroundColor: '#E46060',
+        backgroundColor: '#BF4158',
         borderRadius: 60,
         alignItems: 'center',
         justifyContent: 'center',

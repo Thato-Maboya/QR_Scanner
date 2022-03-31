@@ -7,7 +7,7 @@ getScannerTransactionSuccessLength, getScannerTransactionUnsuccessLength} from '
 import {AntDesign } from '@expo/vector-icons';
 require('firebase/auth')
 
-const Transaction = ({ navigation }) => {
+const AllTransactionsScreen = ({ navigation }) => {
     const [transaction, setTransaction] = useState([]);
     const [transactionSuccess, setTransactionSuccess] = useState([]);
     const [transactionUnsuccess, setTransactionUnsuccess] = useState([]);
@@ -100,81 +100,11 @@ const Transaction = ({ navigation }) => {
      }, [])
 
     return (
-        all?
         <View style={styles.container}>
-            <View style={styles.TopHeaders}>
-                <TouchableOpacity onPress={handlePressAll}><Text style={{fontWeight: 'bold',}}>All</Text></TouchableOpacity>
-                <TouchableOpacity onPress={handlePressIn}><Text>Accepted</Text></TouchableOpacity>
-                <TouchableOpacity onPress={handlePressOut}><Text>Denied</Text></TouchableOpacity>
-            </View>
+            
             <Text>Total Transactions : {transactionLength}</Text>
             {
                 Object.entries(transaction).map(([item, index]) => {
-                    return (
-                        <View key={index} style={styles.RepoInfoDetails}>
-                            <Text style={styles.sectionHeader}>{item}</Text>
-                            <View>
-                                {
-                                    index.map((key, value) => {
-                                        return (
-                                            <View style={styles.RepoInfo}>
-                                                <View><Text style={{marginHorizontal:10, fontSize:15}}>{key.date}</Text></View>
-                                                <View><Text style={{fontSize:15}}>{key.scanned ==1 ? "Accepted" : "Denied"}</Text></View>
-                                            </View>
-                                        )
-                                    }
-                                    )
-                                }
-                            </View>
-
-                        </View>
-                    )
-                }
-                )}
-        </View >
-        :
-        success?
-        <View style={styles.container}>
-            <View style={styles.TopHeaders}>
-                <TouchableOpacity onPress={handlePressAll}><Text>All</Text></TouchableOpacity>
-                <TouchableOpacity onPress={handlePressIn}><Text style={{fontWeight: 'bold',}}>Accepted</Text></TouchableOpacity>
-                <TouchableOpacity onPress={handlePressOut}><Text>Denied</Text></TouchableOpacity>
-            </View>
-            <Text>Total Successful Transactions : {successTransactionLength}</Text>
-            {
-                Object.entries(transactionSuccess).map(([item, index]) => {
-                    return (
-                        <View key={index} style={styles.RepoInfoDetails}>
-                            <Text style={styles.sectionHeader}>{item}</Text>
-                            <View>
-                                {
-                                    index.map((key, value) => {
-                                        return (
-                                            <View style={styles.RepoInfo}>
-                                                <View><Text style={{marginHorizontal:10, fontSize:15}}>{key.date}</Text></View>
-                                                <View><Text style={{fontSize:15}}>{key.scanned ==1 ? "Accepted" : "Denied"}</Text></View>
-                                            </View>
-                                        )
-                                    }
-                                    )
-                                }
-                            </View>
-
-                        </View>
-                    )
-                }
-                )}
-        </View >
-        : 
-        <View style={styles.container}>
-            <View style={styles.TopHeaders}>
-                <TouchableOpacity onPress={handlePressAll}><Text>All</Text></TouchableOpacity>
-                <TouchableOpacity onPress={handlePressIn}><Text>Accepted</Text></TouchableOpacity>
-                <TouchableOpacity onPress={handlePressOut}><Text style={{fontWeight: 'bold',}}>Denied</Text></TouchableOpacity>
-            </View>
-            <Text>Total Unsuccessful Transactions : {unsuccessTransactionLength}</Text>
-            {
-                Object.entries(transactionUnsuccess).map(([item, index]) => {
                     return (
                         <View key={index} style={styles.RepoInfoDetails}>
                             <Text style={styles.sectionHeader}>{item}</Text>
@@ -289,7 +219,7 @@ const styles = StyleSheet.create({
     },
     RepoInfo: {
         flexDirection: 'row',
-        backgroundColor: '#F8C8DC',
+        backgroundColor: '#E894A8',
         justifyContent: 'space-between',
         // padding: 10,
         margin: 0,
@@ -334,4 +264,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Transaction;
+export default AllTransactionsScreen;

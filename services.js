@@ -304,7 +304,6 @@ export async function getScannerTransactionUnsuccess() {
     }
     console.log(dataObj.length);
     return dataObj
-
  }
 
   //Fetching the current user scanned Transaction length

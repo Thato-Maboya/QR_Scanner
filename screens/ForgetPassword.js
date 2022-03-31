@@ -13,7 +13,7 @@ const ForgetPassword = ({ navigation }) => {
         <View style={styles.container}>
             {/* <Text style={styles.textDesign}>CodeTribe Sanitary</Text> */}
             <View style={styles.viewDirection}>
-                <Image style={styles.img} source={require("../assets/rose.png")} />
+                <Image style={styles.img} source={require("../assets/1.png")} />
                 {/* <Image style={styles.img} source={require("../assets/BackGround2.png")} /> */}
             </View>
             <Text style={styles.textDesign3}>Forgot password</Text>
@@ -24,7 +24,7 @@ const ForgetPassword = ({ navigation }) => {
                 onChangeText={(email) => setEmail(email)}
             />
             <TouchableOpacity onPress={reset} style={styles.loginButton}>
-                <Text>Submit</Text>
+                <Text style={{color: '#FFFFFF', fontWeight: 'bold' }}>Submit</Text>
             </TouchableOpacity>
 
         </View>
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
+        // justifyContent: 'center',
     },
     loginButton: {
         height: 40,
@@ -43,17 +43,18 @@ const styles = StyleSheet.create({
         color: '#FFC0CB',
         paddingHorizontal: 15,
         paddingVertical: 5,
-        backgroundColor: '#E46060',
+        backgroundColor: '#BF4158',
         borderRadius: 60,
         alignItems: 'center',
         justifyContent: 'center',
     },
     img: {
         height: 150,
-        width: 70,
-        marginBottom: 70, //nb
+        width: 150,
+        marginBottom: 50,
         borderRadius: 10,
-       
+        // marginTop: 2,
+        // marginRight:3,
     },
     fieldText_Design: {
         backgroundColor: '#F1F0F0',
